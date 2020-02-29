@@ -1,3 +1,7 @@
+//CECS 424 ASSIGNMENT 2
+//standarddeviation.c
+//Dominique Oyco (014605758)
+
 #include <stdlib.h>
 #include <math.h>
 

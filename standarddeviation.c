@@ -1,4 +1,4 @@
-#include "stdbool.h"
+#include <stdlib.h>
 #include <math.h>
 
 /*
@@ -8,6 +8,7 @@ param: n - the length of the array
 */
 double calculateMean(int *a, int n)
 {
+	//initializing variables
 	double mean = 0;
 	double total = 0;
 
@@ -17,8 +18,8 @@ double calculateMean(int *a, int n)
 		total = total + a[i];
 	}
 
-	//Second, divide by the total number of integers
-	mean = sum / (double)length;
+	//Get the mean by dividing the sum by the total number of integers
+	mean = total / (double)n;
 
 	return mean;
 }
@@ -26,30 +27,25 @@ double calculateMean(int *a, int n)
 /*
 This function calculates the standard deviation using the formula
 	sqrt( 1/n * summation(( xi - u )^2), 1 to n ),
-where xi are the integers, u is the arithmetic mean, and n is the size of the array
+where xi are the integers, u is the mean, and n is the size of the array
 param: a - the integer array
 param: n - the length of the array
 */
 double calculateStdDeviation(int *a, int n)
 {
-	// Calculate standard deviation of integers
-	//   Formula:
-	//   sqrt( 1/n * summation(( xi - u )^2), 1 to n ),
-	//   where xi = integers entered and u = total arithmetic mean
-	//   and n is the size of the array
-
-	double mean = calculateMean(array, length);
+	//initializing variables
+	double u = calculateMean(a, n); 						//get the mean of the numbers in the array 
 	double summation = 0;
 	double stdDev = 0;
 
-	//First calculate summation(( xi - u )^2)
-	for (int i = 0; i < length; i++)
+	//Calculating the summation of ( xi - u )^2
+	for (int i = 0; i < n; i++)
 	{
-		summation = summation + (array[i] - mean)*(array[i] - mean);
+		summation = summation + pow(a[i] - u, 2);			//pow is a built in double function that allows you to get the square of a number
 	}
 
-	//Calculate the standard deviation
-	stdDev = summation / (double)length;
+	//Get the standard deviation by dividing the summation by the total number of integers
+	stdDev = summation / (double)n;
 	stdDev = sqrt(stdDev);
 
 	return stdDev;

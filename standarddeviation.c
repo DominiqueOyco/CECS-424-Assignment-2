@@ -2,8 +2,7 @@
 //standarddeviation.c
 //Dominique Oyco (014605758)
 
-#include <stdlib.h>
-#include <math.h>
+#include "standarddeviation.h"
 
 /*
 This function calculates the mean of numbers

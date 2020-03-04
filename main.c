@@ -2,6 +2,7 @@
 //main.c
 //Dominique Oyco (014605758)
 
+#include "heapmanager.h"
 #include "standarddeviation.h"
 
 int main(){

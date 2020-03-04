@@ -34,51 +34,52 @@ param: size - the size of the buffer
 */
 void* my_malloc (int size)
 {
-	// int targetSize = ceil(size + OVERHEAD_SIZE);				//the
+	int targetSize = ceil(size + OVERHEAD_SIZE);				//the
 
-	// //Initializing pointers
-	// struct Block *currentBlock = free_head; 					//The iterator for the free head
-	// struct Block *next_block;									//
-	// struct Block *new_block;									//
+	//Initializing pointers
+	struct Block *currentBlock = free_head; 					//The iterator for the free head
+	struct Block *next_block;									//
+	struct Block *new_block;									//
 
-	// while (currentBlock)
-	// {
-	// 	if (currentBlock->block_size >= targetSize)
-	// 	{
-	// 		int extraMem = currentBlock->block_size - targetSize;
+	while (currentBlock)
+	{
+		if (currentBlock->block_size >= targetSize)
+		{
+			int extraMem = currentBlock->block_size - targetSize;	//size of free block - size of space for allocation
 
-	// 		if (extraMem > OVERHEAD_SIZE)
-	// 		{
-	// 			int insert_location = currentBlock->block_size - targetSize;
+			//Need to determine if the extra memory can support a new block
+			if (extraMem > OVERHEAD_SIZE) 
+			{
+				//this block of code inserts a new block only if excess memory > size of
+				//the overhead
+				new_block = (struct Block *)((char *)(currentBlock + 1) + extraMem);
+				new_block->block_size = size;
+				new_block->next_block = NULL;
 
-	// 			new_block = (struct Block *)((char *)(currentBlock + 1) + extraMem);
-	// 			new_block->block_size = size;
-	// 			new_block->next_block = NULL;
+				currentBlock = currentBlock->next_block;
 
-	// 			currentBlock = currentBlock->next_block;
+				return (void*)(new_block + 1);
+			}
 
-	// 			return (void*)(new_block + 1);
-	// 		}
+			else
+			{
+				currentBlock = currentBlock->next_block;
 
-	// 		else
-	// 		{
-	// 			currentBlock = currentBlock->next_block;
+				return (void*)(currentBlock + 1);
+			}
 
-	// 			return (void*)(currentBlock + 1);
-	// 		}
+		}
 
-	// 	}
+		else if (currentBlock->block_size < targetSize)
+		{
+			currentBlock = currentBlock->next_block;
+		}
 
-	// 	else if (currentBlock->block_size < targetSize)
-	// 	{
-	// 		currentBlock = currentBlock->next_block;
-	// 	}
-
-	// 	else
-	// 	{
-	// 		return NULL;
-	// 	}
-	// }
+		else
+		{
+			return NULL;
+		}
+	}
 }
 
 /*

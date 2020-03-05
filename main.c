@@ -28,8 +28,8 @@ void testCase2(){
 	r = my_malloc(sizeof(int));
 	s = my_malloc(sizeof(int));
 	printf("The address of the 1st int pointer is: %p\n", r);
-	printf("The address of the 2nd int pointer is: %p\n", s);
-	printf("The Size of overhead + int: %lu \n\n", OVERHEAD_SIZE + sizeof(int));
+	printf("The address of the 2nd int pointer is: %p\n\n", s);
+	printf("The distance between the addresses (size of overhead + void*): %lu \n\n", OVERHEAD_SIZE + sizeof(void*));
 }
 
 //Allocates three int values and print their addresses, then frees the second of the three.
@@ -62,7 +62,7 @@ void testCase4(){
 	z = my_malloc(sizeof(int));
 	printf("The address of the char pointer: %p\n", y);
 	printf("The address of the int pointer:  %p\n\n", z);
-	printf("The Size of overhead + int: %lu \n\n", OVERHEAD_SIZE + sizeof(int));
+	printf("The distance between the addresses (size of overhead + void*): %lu \n\n", OVERHEAD_SIZE + sizeof(void*));
 }
 
 //Allocates space for a 100-element int array, then for one more int value. 

@@ -4,7 +4,7 @@
 
 #include "heapmanager.h"
 
-// memory block
+//memory block
 struct Block 
 {
 	int block_size;												// # of bytes in the data section
@@ -34,33 +34,35 @@ param: size - the size of the buffer
 */
 void* my_malloc (int size)
 {
+	//The data size must be a multiple of (void*) size. Have to take the ceiling of the data size/void pointer size
+	//to know which multiple of (void*) to use
 	int targetSize = (int) ceil((size + OVERHEAD_SIZE) / (double) VP_SIZE) * VP_SIZE;	//MEM ALLOCATION REQUEST segmented into multiples of the void pointer rounded up
 
 	//Initializing pointers
 	struct Block *currentBlock = free_head; 					//The iterator for the free head
-	struct Block *next_block;									//
-	struct Block *new_block;									//
+	struct Block *next_block;									
+	struct Block *new_block;									
 
 	while (currentBlock)
 	{
 		if (currentBlock->block_size >= targetSize)
 		{
-			int extraMem = currentBlock->block_size - targetSize;	//size of free block - size of space for allocation
+			int extraMem = currentBlock->block_size - targetSize;						//size of free block - size of space for allocation
 
-			//Need to determine if the extra memory can support a new block
+			//Determine if the extra memory can support a new block. If yes, then split 
 			if (extraMem > OVERHEAD_SIZE) 
 			{
-				//this block of code inserts a new block only if excess memory > size of
-				//the overhead
-				new_block = (struct Block *)((char *)(currentBlock + 1) + extraMem);
-				new_block->block_size = size;
-				new_block->next_block = NULL;
+				new_block = (struct Block *)((char *)(currentBlock + 1) + extraMem);	//Finding the location of new block based on size that needed to split & allocation request
+				new_block->block_size = size;											//initializing new block by pointing new block to the new block size
+				new_block->next_block = NULL;											//set next_block pointer to null
 
-				currentBlock = currentBlock->next_block;
+				currentBlock = currentBlock->next_block;								//Make the current block redirect pointer to the nextblock
 
-				return (void*)(new_block + 1);
+				return (void*)(new_block + 1);											//Return a pointer to the data region of the block, which is “overhead size” bytes past
+																						//the start of the block.
 			}
 
+			//Then redirect pointers to the block to point to the block that follows it if the remaining memory is <= the size of the overhead
 			else
 			{
 				currentBlock = currentBlock->next_block;
@@ -70,14 +72,16 @@ void* my_malloc (int size)
 
 		}
 
+		//If you the block cannot be split, then redirect pointers to the block to point to the block that follows it.
 		else if (currentBlock->block_size < targetSize)
 		{
 			currentBlock = currentBlock->next_block;
 		}
 
+		//If no blocks can be found, return NULL
 		else
 		{
-			return NULL;
+			return NULL;																
 		}
 	}
 }

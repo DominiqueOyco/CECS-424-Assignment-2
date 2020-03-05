@@ -62,6 +62,7 @@ void testCase4(){
 	z = my_malloc(sizeof(int));
 	printf("The address of the char pointer: %p\n", y);
 	printf("The address of the int pointer:  %p\n\n", z);
+	printf("The Size of overhead + int: %lu \n\n", OVERHEAD_SIZE + sizeof(int));
 }
 
 //Allocates space for a 100-element int array, then for one more int value. 

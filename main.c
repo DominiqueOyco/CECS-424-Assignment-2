@@ -80,6 +80,14 @@ void testCase5(){
 	printf("Value of int: %d\n\n", *k);
 }
 
+void testCase6(){
+	testCase1();
+	testCase2();
+	testCase3();
+	testCase4();
+	testCase5();
+}
+
 void testCases(int choice){
 	switch(choice){
 		case 1: 
@@ -104,6 +112,11 @@ void testCases(int choice){
 			testCase5();
       		break;
 
+  		case 6:
+  			testCase6();
+  			printf("Doing all the test cases...\n");
+  			break;
+
 	}
 }
 
@@ -124,7 +137,7 @@ int main() {
     */
 	int caseValue;
 	printf("Testing cases for the heap manager\n");
-	printf("Please enter a case to test (1-5): ");
+	printf("Please enter a case to test (1-6): ");
 	scanf("%d", &caseValue);
 
 	testCases(caseValue);

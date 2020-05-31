@@ -15,7 +15,7 @@ void testCase1(){
 	int *p = my_malloc(sizeof(int));
 	int *q = my_malloc(sizeof(int));
 	printf("The address of the int pointer is: %p\n", p);
-	my_free(p);
+	my_free(p);	//if you free p, q will have the same address as p because the address of p will be reused
 	printf("The address of another int pointer is: %p\n\n", q);
 }
 
